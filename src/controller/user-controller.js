@@ -5,6 +5,7 @@ export class UserController {
 
 	constructor({ userService }) {
 		this.#userService = userService;
+		this.#bindMethod();
 	}
 
 	async create(req, res) {
@@ -28,6 +29,18 @@ export class UserController {
 		return new Success({ response: res, data: users });
 	}
 
+	async teste(req, res) {
+		return "bla"
+	}
+
+	async #bindMethod() {
+		Object.getOwnPropertyNames(UserController.prototype)
+			.filter((method) => typeof this[method] === 'function' && method !== 'constructor')
+			.forEach((method) => {
+				this[method] = this[method].bind(this);
+			});
+	}
+
 	async #processRequestBody(req) {
 		let body = "";
 
@@ -41,5 +54,5 @@ export class UserController {
 		} catch (error) {
 			throw new Error("Invalid JSON");
 		}
-	}
+	}	
 }
