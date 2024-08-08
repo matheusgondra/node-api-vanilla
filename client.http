@@ -1,0 +1,13 @@
+@base_url = http://localhost:3333
+
+POST {{base_url}}/users
+Content-Type: application/json
+
+{
+	"name": "Fulano"
+}
+
+
+###
+
+GET {{base_url}}/users
