@@ -57,7 +57,7 @@ describe("SignupController", () => {
 		await sut.handle(makeFakeRequest());
 		const calls = validatorStub.validate.mock.calls[0];
 
-		assert.deepEqual(calls.arguments, [makeFakeRequest().body]);
+		assert.deepStrictEqual(calls.arguments, [makeFakeRequest().body]);
 	});
 
 	it("Should return an 400 if Validation fails", async () => {
@@ -77,6 +77,17 @@ describe("SignupController", () => {
 
 		const calls = addAccountStub.add.mock.calls[0];
 
-		assert.deepEqual(calls.arguments, [makeFakeRequest().body]);
+		assert.deepStrictEqual(calls.arguments, [makeFakeRequest().body]);
+	});
+
+	it("Should return 500 if AddAccount throws", async () => {
+		const { sut, addAccountStub } = makeSut();
+		mock.method(addAccountStub, "add").mock.mockImplementationOnce(() => {
+			throw new Error()
+		});
+
+		const httpResponse = await sut.handle(makeFakeRequest());
+
+		assert.deepStrictEqual(httpResponse, HttpResponse.serverError(new Error()));
 	});
 });
