@@ -1,16 +1,18 @@
 {
-  "name": "node-api-vanilla",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "type": "module",
-  "scripts": {
-    "dev": "node --watch src/server.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/node": "^22.1.0"
-  }
+	"name": "node-api-vanilla",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"dev": "node --watch src/server.js",
+		"test": "node --test test",
+		"test:watch": "node --test --watch test"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@types/node": "^22.1.0"
+	}
 }
