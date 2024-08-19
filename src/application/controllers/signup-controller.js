@@ -6,6 +6,12 @@ export class SignupController {
 	}
 
 	handle(httpRequest) {
-		this.#validation.validate(httpRequest.body);
+		const error = this.#validation.validate(httpRequest.body);
+		if (error) {
+			return {
+				statusCode: 400,
+				body: error
+			}
+		}
 	}
 }
