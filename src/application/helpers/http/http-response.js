@@ -5,4 +5,11 @@ export class HttpResponse {
 			body: error
 		}
 	}
+
+	static serverError(error) {
+		return {
+			statusCode: 500,
+			body: error
+		}
+	}
 }

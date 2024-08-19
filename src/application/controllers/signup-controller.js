@@ -10,11 +10,15 @@ export class SignupController {
 	}
 
 	async handle(httpRequest) {
-		const error = this.#validation.validate(httpRequest.body);
-		if (error) {
-			return HttpResponse.badRequest(error);
-		}
+		try {
+			const error = this.#validation.validate(httpRequest.body);
+			if (error) {
+				return HttpResponse.badRequest(error);
+			}
 
-		await this.#addAccount.add(httpRequest.body);
+			await this.#addAccount.add(httpRequest.body);
+		} catch (error) {
+			return HttpResponse.serverError(error);
+		}
 	}
 }
