@@ -36,4 +36,14 @@ describe("SignupController", () => {
 
 		assert.deepEqual(calls.arguments, [makeFakeRequest().body]);
 	});
+
+	it("Should return an 400 if Validation fails", () => {
+		const { sut, validatorStub } = makeSut();
+		mock.method(validatorStub, "validate").mock.mockImplementationOnce(() => new Error());
+
+		const httpResponse = sut.handle(makeFakeRequest());
+
+		assert.deepEqual(httpResponse.statusCode, 400);
+		assert.deepEqual(httpResponse.body, new Error());
+	});
 });
