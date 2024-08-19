@@ -12,4 +12,11 @@ export class HttpResponse {
 			body: error
 		}
 	}
+
+	static created(data) {
+		return {
+			statusCode: 201,
+			body: data
+		}
+	}
 }

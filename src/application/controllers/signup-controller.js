@@ -16,7 +16,8 @@ export class SignupController {
 				return HttpResponse.badRequest(error);
 			}
 
-			await this.#addAccount.add(httpRequest.body);
+			const account = await this.#addAccount.add(httpRequest.body);
+			return HttpResponse.created(account);
 		} catch (error) {
 			return HttpResponse.serverError(error);
 		}
