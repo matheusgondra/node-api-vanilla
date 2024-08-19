@@ -1,3 +1,5 @@
+import { HttpResponse } from "../helpers/index.js";
+
 export class SignupController {
 	#validation;
 
@@ -8,10 +10,7 @@ export class SignupController {
 	handle(httpRequest) {
 		const error = this.#validation.validate(httpRequest.body);
 		if (error) {
-			return {
-				statusCode: 400,
-				body: error
-			}
+			return HttpResponse.badRequest(error);
 		}
 	}
 }

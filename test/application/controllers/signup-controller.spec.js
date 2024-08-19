@@ -1,6 +1,7 @@
 import assert from "node:assert";
 import { describe, it, mock } from "node:test";
 import { SignupController } from "../../../src/application/controllers/index.js";
+import { HttpResponse } from "../../../src/application/helpers/index.js";
 
 const makeValidationStub = () => {
 	class ValidationStub {
@@ -43,7 +44,6 @@ describe("SignupController", () => {
 
 		const httpResponse = sut.handle(makeFakeRequest());
 
-		assert.deepEqual(httpResponse.statusCode, 400);
-		assert.deepEqual(httpResponse.body, new Error());
+		assert.deepStrictEqual(httpResponse, HttpResponse.badRequest(new Error()));
 	});
 });
