@@ -2,15 +2,19 @@ import { HttpResponse } from "../helpers/index.js";
 
 export class SignupController {
 	#validation;
+	#addAccount;
 
-	constructor({ validation }) {
+	constructor({ validation, addAccount }) {
 		this.#validation = validation;
+		this.#addAccount = addAccount;
 	}
 
-	handle(httpRequest) {
+	async handle(httpRequest) {
 		const error = this.#validation.validate(httpRequest.body);
 		if (error) {
 			return HttpResponse.badRequest(error);
 		}
+
+		await this.#addAccount.add(httpRequest.body);
 	}
 }
