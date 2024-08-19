@@ -90,4 +90,16 @@ describe("SignupController", () => {
 
 		assert.deepStrictEqual(httpResponse, HttpResponse.serverError(new Error()));
 	});
+
+	it("Should return 201 on success", async () => {
+		const { sut } = makeSut();
+		const httpResponse = await sut.handle(makeFakeRequest());
+
+		assert.deepStrictEqual(httpResponse, HttpResponse.created({
+			id: "any_id",
+			...makeFakeRequest().body,
+			createdAt: new Date("2024-01-01"),
+			updatedAt: new Date("2024-01-01")
+		}));
+	});
 });
