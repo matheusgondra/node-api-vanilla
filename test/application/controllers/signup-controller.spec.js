@@ -11,7 +11,6 @@ const makeAddAccountStub = () => {
 				first_name: "any_first_name",
 				last_name: "any_last_name",
 				email: "any_email@mail.com",
-				password: "any_password",
 				createdAt: new Date("2024-01-01"),
 				updatedAt: new Date("2024-01-01")
 			};
@@ -97,7 +96,9 @@ describe("SignupController", () => {
 
 		assert.deepStrictEqual(httpResponse, HttpResponse.created({
 			id: "any_id",
-			...makeFakeRequest().body,
+			first_name: "any_first_name",
+			last_name: "any_last_name",
+			email: "any_email@mail.com",
 			createdAt: new Date("2024-01-01"),
 			updatedAt: new Date("2024-01-01")
 		}));
