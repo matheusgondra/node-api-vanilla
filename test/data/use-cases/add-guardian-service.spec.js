@@ -1,4 +1,4 @@
-import { deepStrictEqual } from "assert";
+import { deepStrictEqual, rejects } from "node:assert";
 import { describe, it, mock } from "node:test";
 import { AddGuardianService } from "../../../src/data/use-cases/index.js";
 
@@ -35,12 +35,21 @@ const makeFakeParams = () => ({
 });
 
 describe("AddGuardianService", () => {
-	it("should call AddGuardianRepository with correct params", async () => {
+	it("Should call AddGuardianRepository with correct params", async () => {
 		const { sut, addGuardianRepositoryStub } = makeSut();
 		mock.method(addGuardianRepositoryStub, "add");
 		await sut.add(makeFakeParams());
 
 		const calls = addGuardianRepositoryStub.add.mock.calls[0];
 		deepStrictEqual(calls.arguments, [makeFakeParams()]);
+	});
+
+	it("Should throw if AddGuardianRepository throws", async () => {
+		const { sut, addGuardianRepositoryStub } = makeSut();
+		mock.method(addGuardianRepositoryStub, "add").mock.mockImplementationOnce(() => {
+			throw new Error();
+		});
+
+		await rejects(async () => await sut.add(makeFakeParams()), { name: "Error" });
 	});
 });
