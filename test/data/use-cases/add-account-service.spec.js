@@ -18,12 +18,28 @@ const makeAddAccountRepository = () => {
 	return new AddAccountRepository();
 };
 
+const makeEncrypter = () => {
+	class EncrypterStub {
+		async encrypt(value) {
+			return "hashed_password";
+		}
+	}
+
+	return new EncrypterStub();
+}
+
 const makeSut = () => {
 	const addAccountRepositoryStub = makeAddAccountRepository();
-	const sut = new AddAccountService({ addAccountRepository: addAccountRepositoryStub });
+	const encrypterStub = makeEncrypter();
+	const sut = new AddAccountService({
+		addAccountRepository: addAccountRepositoryStub,
+		encrypter: encrypterStub
+	});
+
 	return {
 		sut,
-		addAccountRepositoryStub
+		addAccountRepositoryStub,
+		encrypterStub
 	};
 };
 
@@ -51,5 +67,15 @@ describe("AddAccountService", () => {
 		});
 
 		await rejects(async () => await sut.add(makeFakeParams()), { name: "Error" });
+	});
+
+	it("Should call Encrypter with correct password", async () => {
+		const { sut, encrypterStub } = makeSut();
+		mock.method(encrypterStub, "encrypt");
+
+		await sut.add(makeFakeParams());
+
+		const calls = encrypterStub.encrypt.mock.calls[0];
+		deepStrictEqual(calls.arguments, ["any_password"]);
 	});
 });
