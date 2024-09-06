@@ -51,13 +51,14 @@ const makeFakeParams = () => ({
 });
 
 describe("AddAccountService", () => {
-	it("Should call AddAccountRepository with correct params", async () => {
+	it("Should call AddAccountRepository with correct value", async () => {
 		const { sut, addAccountRepositoryStub } = makeSut();
 		mock.method(addAccountRepositoryStub, "add");
-		await sut.add(makeFakeParams());
+		const params = Object.assign({}, makeFakeParams(), { password: "hashed_password" });
+		await sut.add(params);
 
 		const calls = addAccountRepositoryStub.add.mock.calls[0];
-		deepStrictEqual(calls.arguments, [makeFakeParams()]);
+		deepStrictEqual(calls.arguments, [params]);
 	});
 
 	it("Should throw if AddAccountRepository throws", async () => {
@@ -86,5 +87,19 @@ describe("AddAccountService", () => {
 		});
 
 		await rejects(async () => await sut.add(makeFakeParams()), { name: "Error" });
+	});
+
+	it("Should return an account on success", async () => {
+		const { sut } = makeSut();
+		const account = await sut.add(makeFakeParams());
+
+		deepStrictEqual(account, {
+			id: "any_id",
+			first_name: "any_first_name",
+			last_name: "any_last_name",
+			email: "any_email",
+			createdAt: new Date("2024-01-01"),
+			updatedAt: new Date("2024-01-01")
+		});
 	});
 });
