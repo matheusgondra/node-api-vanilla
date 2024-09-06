@@ -78,4 +78,13 @@ describe("AddAccountService", () => {
 		const calls = encrypterStub.encrypt.mock.calls[0];
 		deepStrictEqual(calls.arguments, ["any_password"]);
 	});
+
+	it("Should throw if Encrypter throws", async () => {
+		const { sut, encrypterStub } = makeSut();
+		mock.method(encrypterStub, "encrypt").mock.mockImplementationOnce(() => {
+			throw new Error();
+		});
+
+		await rejects(async () => await sut.add(makeFakeParams()), { name: "Error" });
+	});
 });
