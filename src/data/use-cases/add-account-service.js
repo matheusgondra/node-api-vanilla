@@ -7,8 +7,9 @@ export class AddAccountService {
 		this.#encrypter = encrypter;
 	}
 
-	async add(account) {
-		await this.#encrypter.encrypt(account.password);
-		await this.#addAccountRepository.add(account);
+	async add(accountData) {
+		const hashedPassword = await this.#encrypter.encrypt(accountData.password);
+		const account = await this.#addAccountRepository.add(Object.assign({}, accountData, { password: hashedPassword }));
+		return account;
 	}
 }
