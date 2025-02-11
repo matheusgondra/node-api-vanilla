@@ -6,7 +6,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "node --env-file=.env --watch src/server.js",
-		"test": "node --env-file=.env --test test",
+		"test": "pnpm migration:run && node --env-file=.env.test.local --test test",
 		"test:watch": "node --test --watch test",
 		"migration:run": "node --env-file=.env migrations/migration.js"
 	},

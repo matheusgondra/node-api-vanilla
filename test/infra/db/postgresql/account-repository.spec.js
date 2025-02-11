@@ -1,5 +1,5 @@
-import { describe, it, beforeEach } from "node:test";
 import { deepStrictEqual, ok, strictEqual } from "node:assert";
+import { beforeEach, describe, it } from "node:test";
 import pg from "pg";
 import { AccountRepository } from "../../../../src/infra/db/postgresql/account-repository.js";
 
@@ -13,6 +13,7 @@ describe("AccountRepository", () => {
 			const client = new pg.Client();
 			await client.connect();
 			await client.query("DELETE FROM users");
+			await client.end();
 		});
 
 		it("Should return an account on success", async () => {
