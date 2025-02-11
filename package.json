@@ -5,8 +5,8 @@
 	"main": "index.js",
 	"type": "module",
 	"scripts": {
-		"dev": "node --watch src/server.js",
-		"test": "node --test test",
+		"dev": "node --env-file=.env --watch src/server.js",
+		"test": "node --env-file=.env --test test",
 		"test:watch": "node --test --watch test",
 		"migration:run": "node --env-file=.env migrations/migration.js"
 	},
