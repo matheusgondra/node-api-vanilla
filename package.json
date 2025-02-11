@@ -7,7 +7,8 @@
 	"scripts": {
 		"dev": "node --watch src/server.js",
 		"test": "node --test test",
-		"test:watch": "node --test --watch test"
+		"test:watch": "node --test --watch test",
+		"migration:run": "node --env-file=.env migrations/migration.js"
 	},
 	"keywords": [],
 	"author": "",
